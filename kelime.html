@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kelime Kartları ve Eşleştirme</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .grid-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      margin: 20px auto;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      flex: 1;
+    }
+    .card {
+      background-color: rgba(4, 149, 234, 1);
+      color: white;
+      border: 2px solid #888;
+      font-weight: bold;
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      min-width: 150px;
+      min-height: 150px;
+      height: 100%;
+      transition: all 0.3s ease;
+    }
+    .tr {
+      background-color: rgba(245, 74, 19, 1);
+    }
+    .matched {
+      visibility: hidden;
+    }
+    .correct {
+      background-color: #28a745 !important;
+    }
+    .shake {
+      animation: shake 0.4s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background-color: #0a84ff;
+      color: white;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #006edc;
+    }
+    #scoreBoard {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2 id="title">Kelime Kartları ve Eşleştirme</h2>
+  <div id="bolumler" style="margin: 10px; text-align: center;"></div>
+   <div id="gridWrapper" class="grid-container">
+    <div id="gridLeft" class="grid"></div>
+    <div id="gridRight" class="grid"></div>
+  </div>
+  <div>
+    <button onclick="prevPage()" id="prevBtn" style="display:none">⬅ Geri</button>
+    <button onclick="nextPage()" id="nextBtn">İleri ➡</button>
+    <button onclick="startMatching()" id="startBtn" style="display:none">▶ Eşleştirme Oyununa Başla</button>
+    <button onclick="nextMatchPage()" id="nextMatchBtn" style="display:none">➕ Sonraki Eşleştirme Sayfası</button>
+    <button onclick="goToCards()" id="backToCardsBtn" style="display:none">📘 Kelime Kartlarına Dön</button>
+    <button onclick="restartMatching()" id="restartBtn" style="display:none">🧐 Eşleştirmeye Yeniden Başla</button>
+    <button onclick="shuffleCards()" id="shuffleBtn">🔀 Karıştır</button>
+  </div>
+
+  <script>
+    const pageSize = 9;
+    let currentPage = 0;
+    let matchPage = 0;
+    let selected = [];
+    let matchingMode = false;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let allWords = [];
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function shuffleCards() {
+      shuffleArray(allWords);
+      if (!matchingMode) {
+        renderCards();
+      } else {
+        renderMatchPage();
+      }
+    }
+
+    function renderCards() {
+      const gridLeft = document.getElementById("gridLeft");
+      const gridRight = document.getElementById("gridRight");
+      const startBtn = document.getElementById("startBtn");
+      gridLeft.innerHTML = "";
+      gridRight.innerHTML = "";
+      const pageWords = allWords.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+      pageWords.forEach(word => {
+        const card = document.createElement("div");
+        card.className = "card en";
+        card.textContent = word.en;
+        card.dataset.meaning = word.tr;
+        card.dataset.original = word.en;
+        card.dataset.lang = "en";
+        card.addEventListener("click", () => {
+          if (card.dataset.lang === "en") {
+            card.textContent = card.dataset.meaning;
+            card.classList.add("tr");
+            card.dataset.lang = "tr";
+          } else {
+            card.textContent = card.dataset.original;
+            card.classList.remove("tr");
+            card.dataset.lang = "en";
+          }
+        });
+        gridLeft.appendChild(card);
+      });
+      if ((currentPage + 1) * pageSize >= allWords.length) {
+        startBtn.style.display = "inline-block";
+      }
+    }
+
+    function nextPage() {
+      currentPage++;
+      renderCards();
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        renderCards();
+      }
+    }
+
+    function startMatching() {
+      matchingMode = true;
+      correctCount = 0;
+      wrongCount = 0;
+      updateScore();
+      document.getElementById("title").textContent = "Eşleştirme Oyunu";
+      document.getElementById("nextBtn").style.display = "none";
+      document.getElementById("prevBtn").style.display = "none";
+      document.getElementById("startBtn").style.display = "none";
+      renderMatchPage();
+    }
+
+    function renderMatchPage() {
+      const gridLeft = document.getElementById("gridLeft");
+      const gridRight = document.getElementById("gridRight");
+      gridLeft.innerHTML = "";
+      gridRight.innerHTML = "";
+      const pageWords = allWords.slice(matchPage * pageSize, (matchPage + 1) * pageSize);
+      const left = [...pageWords.map(w => ({ text: w.en, match: w.tr, lang: "en" }))];
+      const right = [...pageWords.map(w => ({ text: w.tr, match: w.en, lang: "tr" }))];
+      shuffleArray(right);
+      left.forEach(obj => {
+        const span = document.createElement("div");
+        span.textContent = obj.text;
+        span.className = `card ${obj.lang}`;
+        span.dataset.match = obj.match;
+        span.addEventListener("click", () => selectCard(span));
+        gridLeft.appendChild(span);
+      });
+      right.forEach(obj => {
+        const span = document.createElement("div");
+        span.textContent = obj.text;
+        span.className = `card ${obj.lang}`;
+        span.dataset.match = obj.match;
+        span.addEventListener("click", () => selectCard(span));
+        gridRight.appendChild(span);
+      });
+      document.getElementById("nextMatchBtn").style.display = "inline-block";
+    }
+
+    function selectCard(card) {
+      if (card.classList.contains("matched")) return;
+      if (selected.length === 1 && selected[0].classList[1] === card.classList[1]) {
+        card.classList.add("shake");
+        setTimeout(() => card.classList.remove("shake"), 500);
+        return;
+      }
+      if (selected.includes(card)) return;
+      selected.push(card);
+      card.style.backgroundColor = "#ccc";
+
+      if (selected.length === 2) {
+        const [a, b] = selected;
+        if (a.dataset.match === b.textContent || b.dataset.match === a.textContent) {
+          a.classList.add("matched", "correct");
+          b.classList.add("matched", "correct");
+          correctCount++;
+        } else {
+          wrongCount++;
+          a.classList.add("shake");
+          b.classList.add("shake");
+          setTimeout(() => {
+            a.classList.remove("shake");
+            b.classList.remove("shake");
+            a.style.backgroundColor = a.classList.contains("en") ? 'rgba(4, 149, 234, 1)' : 'rgba(245, 74, 19, 1)';
+            b.style.backgroundColor = b.classList.contains("en") ? 'rgba(4, 149, 234, 1)' : 'rgba(245, 74, 19, 1)';
+          }, 600);
+        }
+        selected = [];
+        updateScore();
+      }
+    }
+
+    function nextMatchPage() {
+      const total = document.querySelectorAll('.card.en').length;
+      const matched = document.querySelectorAll('.card.en.matched').length;
+      if (matched < total) {
+        alert("Tüm eşleştirmeleri tamamlamalısınız.");
+        return;
+      }
+      if ((matchPage + 1) * pageSize < allWords.length) {
+        matchPage++;
+        selected = [];
+        renderMatchPage();
+      } else {
+        alert("Tebrikler! Tüm eşleştirmeleri tamamladınız.");
+        document.getElementById("nextMatchBtn").style.display = "none";
+        document.getElementById("backToCardsBtn").style.display = "inline-block";
+        document.getElementById("restartBtn").style.display = "inline-block";
+      }
+    }
+
+    function goToCards() {
+      matchingMode = false;
+      currentPage = 0;
+      document.getElementById("title").textContent = "Kelime Kartları ve Eşleştirme";
+      document.getElementById("backToCardsBtn").style.display = "none";
+      document.getElementById("restartBtn").style.display = "none";
+      document.getElementById("nextBtn").style.display = "inline-block";
+      renderCards();
+    }
+
+    function restartMatching() {
+      matchPage = 0;
+      selected = [];
+      correctCount = 0;
+      wrongCount = 0;
+      updateScore();
+      document.getElementById("backToCardsBtn").style.display = "none";
+      document.getElementById("restartBtn").style.display = "none";
+      renderMatchPage();
+    }
+
+    function updateScore() {
+      document.getElementById("scoreBoard").textContent = `Doğru: ${correctCount} | Yanlış: ${wrongCount}`;
+    }
+
+    // JSON'dan kelime verilerini yükle
+    fetch("kelimeler_25li_bolumler.json")
+  .then(res => res.json())
+  .then(data => {
+    aktifBolum = "Bölüm 1"; // Varsayılan başlangıç bölümü
+    allWords = data[aktifBolum];
+    renderCards();
+    renderBolumButtons(data); // BUTONLARI EKLEMEYİ UNUTMA!
+  })
+  .catch(err => {
+    console.error("JSON yükleme hatası:", err);
+    alert("Kelimeler yüklenemedi.");
+  });
+function renderBolumButtons(data) {
+  const bolumlerDiv = document.getElementById("bolumler");
+  Object.keys(data).forEach(bolum => {
+    const btn = document.createElement("button");
+    btn.textContent = bolum;
+    btn.onclick = () => {
+      aktifBolum = bolum;
+      allWords = data[aktifBolum];
+      currentPage = 0;
+      correctCount = 0;
+      wrongCount = 0;
+      renderCards();
+    };
+    bolumlerDiv.appendChild(btn);
+  });
+}
+</script>
+</body>
+</html>
