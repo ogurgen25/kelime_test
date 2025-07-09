@@ -233,6 +233,13 @@
       if ((currentPage + 1) * pageSize >= allWords.length) {
         startBtn.style.display = "inline-block";
       }
+      const prevBtn = document.getElementById("prevBtn");
+
+if (currentPage > 0) {
+  prevBtn.style.display = "inline-block";
+} else {
+  prevBtn.style.display = "none";
+}
     }
 
     function nextPage() {
