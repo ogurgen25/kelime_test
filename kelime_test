@@ -2,6 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kelime Kartları ve Eşleştirme</title>
   <style>
     body {
@@ -26,7 +27,7 @@
     }
      .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 10px;
   place-items: center;
 }
@@ -130,6 +131,54 @@
 
 .bolum-listesi button:hover {
   background-color: #3e29c4;
+}
+    /* Küçük ekranlar (telefon) */
+@media screen and (max-width: 600px) {
+  .grid-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    min-width: 100px;
+    min-height: 100px;
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  #sidebar {
+    top: 10px;
+    right: 10px;
+  }
+}
+
+/* Tablet ekranlar */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  .grid-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card {
+    min-width: 120px;
+    min-height: 120px;
+    font-size: 15px;
+  }
+  button {
+  max-width: 100%;
+  word-wrap: break-word;
 }
   </style>
 </head>
