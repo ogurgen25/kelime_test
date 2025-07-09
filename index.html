@@ -288,39 +288,49 @@
       document.getElementById("nextMatchBtn").style.display = "inline-block";
     }
 
-    function selectCard(card) {
-      if (card.classList.contains("matched")) return;
-      if (selected.length === 1 && selected[0].classList[1] === card.classList[1]) {
-        card.classList.add("shake");
-        setTimeout(() => card.classList.remove("shake"), 500);
-        return;
-      }
-      if (selected.includes(card)) return;
-      selected.push(card);
-      card.style.backgroundColor = "#ccc";
+  function selectCard(card) {
+  if (card.classList.contains("matched")) return;
+  if (selected.length === 1 && selected[0].classList[1] === card.classList[1]) {
+    card.classList.add("shake");
+    setTimeout(() => card.classList.remove("shake"), 500);
+    return;
+  }
+  if (selected.includes(card)) return;
 
-      if (selected.length === 2) {
-        const [a, b] = selected;
-        if (a.dataset.match === b.textContent || b.dataset.match === a.textContent) {
-          a.classList.add("matched", "correct");
-          b.classList.add("matched", "correct");
-          correctCount++;
-        } else {
-          wrongCount++;
-          a.classList.add("shake");
-          b.classList.add("shake");
-          setTimeout(() => {
-            a.classList.remove("shake");
-            b.classList.remove("shake");
-            a.style.backgroundColor = a.classList.contains("en") ? 'rgba(4, 149, 234, 1)' : 'rgba(245, 74, 19, 1)';
-            b.style.backgroundColor = b.classList.contains("en") ? 'rgba(4, 149, 234, 1)' : 'rgba(245, 74, 19, 1)';
-          }, 600);
-        }
-        selected = [];
-        updateScore();
-      }
+  selected.push(card);
+  card.style.backgroundColor = "#ccc";
+
+  if (selected.length === 2) {
+    const [a, b] = selected;
+    if (a.dataset.match === b.textContent || b.dataset.match === a.textContent) {
+      a.classList.add("matched", "correct");
+      b.classList.add("matched", "correct");
+      correctCount++;
+
+      saveToLocalStorage("dogruListesi", a.textContent, b.textContent); // ✅ EKLENDİ
+    } else {
+      wrongCount++;
+      a.classList.add("shake");
+      b.classList.add("shake");
+
+      saveToLocalStorage("yanlisListesi", a.textContent, b.textContent); // ✅ EKLENDİ
+
+      setTimeout(() => {
+        a.classList.remove("shake");
+        b.classList.remove("shake");
+        a.style.backgroundColor = a.classList.contains("en")
+          ? 'rgba(4, 149, 234, 1)'
+          : 'rgba(245, 74, 19, 1)';
+        b.style.backgroundColor = b.classList.contains("en")
+          ? 'rgba(4, 149, 234, 1)'
+          : 'rgba(245, 74, 19, 1)';
+      }, 600);
     }
 
+    selected = [];
+    updateScore();
+  }
+}
     function nextMatchPage() {
       const total = document.querySelectorAll('.card.en').length;
       const matched = document.querySelectorAll('.card.en.matched').length;
@@ -369,7 +379,7 @@
     fetch("kelimeler_25li_bolumler.json")
   .then(res => res.json())
   .then(data => {
-    aktifBolum = "Bölüm 1"; // Varsayılan başlangıç bölümü
+    aktifBolum = localStorage.getItem("aktifBolum") || "Bölüm 1"; // Varsayılan başlangıç bölümü
     allWords = data[aktifBolum];
     renderCards();
     renderBolumButtons(data); // BUTONLARI EKLEMEYİ UNUTMA!
@@ -385,6 +395,7 @@ function renderBolumButtons(data) {
     btn.textContent = bolum;
     btn.onclick = () => {
       aktifBolum = bolum;
+      localStorage.setItem("aktifBolum", aktifBolum); // ← EKLENEN SATIR
       allWords = data[aktifBolum];
       currentPage = 0;
       correctCount = 0;
@@ -398,6 +409,11 @@ function renderBolumButtons(data) {
   const bolumler = document.getElementById("bolumler");
   bolumler.style.display = bolumler.style.display === "none" ? "block" : "none";
 });
+    function saveToLocalStorage(key, en, tr) {
+  let liste = JSON.parse(localStorage.getItem(key)) || [];
+  liste.push({ en, tr, date: new Date().toISOString() });
+  localStorage.setItem(key, JSON.stringify(liste));
+}
 </script>
 </body>
 </html>
