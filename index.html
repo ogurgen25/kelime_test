@@ -27,7 +27,7 @@
     }
    .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 10px;
   place-items: center;
 }
@@ -135,25 +135,35 @@
 .bolum-listesi button:hover {
   background-color: #3e29c4;
 }
- @media screen and (max-width: 768px) {
+ @media screen and (max-width: 430px) {
   .grid-container {
     flex-direction: column;
     align-items: center;
+    gap: 20px;
   }
 
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 
   .card {
-    min-width: 100px;
-    min-height: 100px;
+    min-width: 120px;
+    min-height: 120px;
     font-size: 14px;
   }
 
   button {
     font-size: 14px;
     padding: 10px 16px;
+    width: 90%;
+    margin: 5px auto;
+  }
+
+  #sidebar {
+    top: 10px;
+    right: 10px;
+    max-width: 90%;
   }
 }
   </style>
