@@ -246,6 +246,9 @@ if (document.getElementById("gridRight").style.display !== "none") {
   progressText.textContent = ""; // eşleştirme modunda boş göster
 }
 prevBtn.style.display = currentPage > 0 ? "inline-block" : "none";
+localStorage.setItem("currentPage", currentPage);
+localStorage.setItem("currentMode", "card");
+
     }
     function nextPage() {
       currentPage++;
@@ -300,6 +303,9 @@ prevBtn.style.display = currentPage > 0 ? "inline-block" : "none";
       const progressText = document.getElementById("progressText");
 const matchTotalPages = Math.ceil(allWords.length / pageSize);
 progressText.textContent = `Eşleştirme ${matchPage + 1} / ${matchTotalPages}`;
+localStorage.setItem("currentPage", matchPage);
+localStorage.setItem("currentMode", "match");
+
     }
 
   function selectCard(card) {
@@ -428,6 +434,27 @@ function renderBolumButtons(data) {
   liste.push({ en, tr, date: new Date().toISOString() });
   localStorage.setItem(key, JSON.stringify(liste));
 }
+    window.addEventListener("DOMContentLoaded", () => {
+  const savedPage = parseInt(localStorage.getItem("currentPage"));
+  const savedMode = localStorage.getItem("currentMode");
+
+  if (!isNaN(savedPage)) {
+    currentPage = savedPage;
+    matchPage = savedPage;
+
+    if (savedMode === "match") {
+      document.getElementById("gridLeft").style.display = "none";
+      document.getElementById("gridRight").style.display = "grid";
+      document.getElementById("startBtn").style.display = "none";
+      renderMatchPage();
+    } else {
+      renderCards();
+    }
+  } else {
+    renderCards(); // ilk kez gelmişse baştan başlasın
+  }
+});
+   
 </script>
 </body>
 </html>
