@@ -438,16 +438,6 @@ function renderBolumButtons(data) {
   if (!isNaN(savedPage)) {
     currentPage = savedPage;
     matchPage = savedPage;
-
-    if (savedMode === "match") {
-      document.getElementById("gridLeft").style.display = "none";
-      document.getElementById("gridRight").style.display = "grid";
-      document.getElementById("startBtn").style.display = "none";
-      renderMatchPage();
-    } else {
-      renderCards();
-    }
-  } else {
     renderCards(); // ilk kez gelmişse baştan başlasın
   }
 });
