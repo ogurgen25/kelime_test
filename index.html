@@ -16,40 +16,38 @@
       margin: 0;
     }
     .grid-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 40px;
-      margin: 20px auto;
-      width: 100%;
-      max-width: 1200px;
-    }
-   .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 10px;
-  place-items: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 430px; /* iPhone 12 için ideal */
+  height: auto;
 }
-    .card {
+  .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+  .card {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* KARE olacak */
+  font-size: 14px;
   background-color: rgba(4, 149, 234, 1);
   color: white;
   border: 2px solid #888;
   font-weight: bold;
-  font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  cursor: pointer;
   user-select: none;
-  width: 150px;
-  height: 150px;
-  padding: 10px;
-  overflow: hidden;
-  word-break: break-word;
   transition: all 0.3s ease;
-    }
+}
     .tr {
       background-color: rgba(245, 74, 19, 1);
     }
