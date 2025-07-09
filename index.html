@@ -240,7 +240,11 @@ const prevBtn = document.getElementById("prevBtn");
 const progressText = document.getElementById("progressText");
 const totalPages = Math.ceil(allWords.length / pageSize);
 
-progressText.textContent = `Sayfa ${currentPage + 1} / ${totalPages}`;
+if (document.getElementById("gridRight").style.display !== "none") {
+  progressText.textContent = `Sayfa ${currentPage + 1} / ${totalPages}`;
+} else {
+  progressText.textContent = ""; // eşleştirme modunda boş göster
+}
 prevBtn.style.display = currentPage > 0 ? "inline-block" : "none";
     }
     function nextPage() {
