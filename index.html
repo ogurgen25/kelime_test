@@ -303,9 +303,6 @@ localStorage.setItem("currentMode", "card");
       const progressText = document.getElementById("progressText");
 const matchTotalPages = Math.ceil(allWords.length / pageSize);
 progressText.textContent = `Eşleştirme ${matchPage + 1} / ${matchTotalPages}`;
-localStorage.setItem("currentPage", matchPage);
-localStorage.setItem("currentMode", "match");
-
     }
 
   function selectCard(card) {
