@@ -203,9 +203,15 @@
       }
     }
 
-   function renderCards() {
+  function renderCards() {
   const startBtn = document.getElementById("startBtn");
   const prevBtn = document.getElementById("prevBtn");
+
+  // ✅ HATA KONTROLÜ EKLENDİ
+  if (!allWords || allWords.length === 0) {
+    alert("Kelimeler yüklenemedi.");
+    return;
+  }
 
   gridLeft.innerHTML = '';
   gridRight.innerHTML = '';
@@ -219,12 +225,14 @@
     gridRight.appendChild(trCard);
   });
 
+  // ⬅️ Geri butonu kontrolü
   if (currentPage > 0) {
     prevBtn.style.display = "inline-block";
   } else {
     prevBtn.style.display = "none";
   }
 
+  // ⏩ Eşleştirme butonu kontrolü
   if ((currentPage + 1) * pageSize >= allWords.length) {
     startBtn.style.display = "inline-block";
   } else {
