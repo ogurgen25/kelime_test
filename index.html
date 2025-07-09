@@ -175,6 +175,7 @@
     <button onclick="goToCards()" id="backToCardsBtn" style="display:none">📘 Kelime Kartlarına Dön</button>
     <button onclick="restartMatching()" id="restartBtn" style="display:none">🧐 Eşleştirmeye Yeniden Başla</button>
     <button onclick="shuffleCards()" id="shuffleBtn">🔀 Karıştır</button>
+    <p id="progressText" style="margin-top: 10px; font-weight: bold;"></p>
   </div>
 
   <script>
@@ -232,16 +233,16 @@
       });
       if ((currentPage + 1) * pageSize >= allWords.length) {
         startBtn.style.display = "inline-block";
-      }
-      const prevBtn = document.getElementById("prevBtn");
-
-if (currentPage > 0) {
-  prevBtn.style.display = "inline-block";
-} else {
-  prevBtn.style.display = "none";
+      }else {
+  startBtn.style.display = "none";
 }
-    }
+const prevBtn = document.getElementById("prevBtn");
+const progressText = document.getElementById("progressText");
+const totalPages = Math.ceil(allWords.length / pageSize);
 
+progressText.textContent = `Sayfa ${currentPage + 1} / ${totalPages}`;
+prevBtn.style.display = currentPage > 0 ? "inline-block" : "none";
+    }
     function nextPage() {
       currentPage++;
       renderCards();
