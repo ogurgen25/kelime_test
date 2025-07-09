@@ -203,38 +203,34 @@
       }
     }
 
-    function renderCards() {
-      const gridLeft = document.getElementById("gridLeft");
-      const gridRight = document.getElementById("gridRight");
-      const startBtn = document.getElementById("startBtn");
-      gridLeft.innerHTML = "";
-      gridRight.innerHTML = "";
-      const pageWords = allWords.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
-      pageWords.forEach(word => {
-        const card = document.createElement("div");
-        card.className = "card en";
-        card.textContent = word.en;
-        card.dataset.meaning = word.tr;
-        card.dataset.original = word.en;
-        card.dataset.lang = "en";
-        card.addEventListener("click", () => {
-          if (card.dataset.lang === "en") {
-            card.textContent = card.dataset.meaning;
-            card.classList.add("tr");
-            card.dataset.lang = "tr";
-          } else {
-            card.textContent = card.dataset.original;
-            card.classList.remove("tr");
-            card.dataset.lang = "en";
-          }
-        });
-        gridLeft.appendChild(card);
-      });
-      if ((currentPage + 1) * pageSize >= allWords.length) {
-        startBtn.style.display = "inline-block";
-      }
-    }
+   function renderCards() {
+  const startBtn = document.getElementById("startBtn");
+  const prevBtn = document.getElementById("prevBtn");
 
+  gridLeft.innerHTML = '';
+  gridRight.innerHTML = '';
+
+  const pageWords = allWords.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+
+  pageWords.forEach((word, i) => {
+    const enCard = createCard(word.en, "en", i);
+    const trCard = createCard(word.tr, "tr", i);
+    gridLeft.appendChild(enCard);
+    gridRight.appendChild(trCard);
+  });
+
+  if (currentPage > 0) {
+    prevBtn.style.display = "inline-block";
+  } else {
+    prevBtn.style.display = "none";
+  }
+
+  if ((currentPage + 1) * pageSize >= allWords.length) {
+    startBtn.style.display = "inline-block";
+  } else {
+    startBtn.style.display = "none";
+  }
+}
     function nextPage() {
       currentPage++;
       renderCards();
