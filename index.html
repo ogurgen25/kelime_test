@@ -297,6 +297,9 @@ prevBtn.style.display = currentPage > 0 ? "inline-block" : "none";
         gridRight.appendChild(span);
       });
       document.getElementById("nextMatchBtn").style.display = "inline-block";
+      const progressText = document.getElementById("progressText");
+const matchTotalPages = Math.ceil(allWords.length / pageSize);
+progressText.textContent = `Eşleştirme ${matchPage + 1} / ${matchTotalPages}`;
     }
 
   function selectCard(card) {
