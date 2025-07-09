@@ -131,22 +131,20 @@
 .bolum-listesi button:hover {
   background-color: #3e29c4;
 }
-@media screen and (max-width: 600px) {
-  .grid-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+@media screen and (min-width: 1025px) {
+  .card {
+    width: 150px;
+    height: 150px;
+    font-size: 16px;
   }
 
   .grid {
-    grid-template-columns: repeat(2, auto);
-    justify-content: center;
+    grid-template-columns: repeat(3, auto);
+    gap: 15px;
   }
 
-  .card {
-    width: 100px;
-    height: 100px;
-    font-size: 13px;
+  .grid-container {
+    gap: 60px;
   }
 }
   </style>
