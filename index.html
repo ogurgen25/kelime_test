@@ -84,11 +84,61 @@
       font-size: 18px;
       font-weight: bold;
     }
+    #sidebar {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#toggleSidebar {
+  padding: 10px 20px;
+  margin-bottom: 5px;
+  background-color: #5a3fff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.bolum-listesi {
+  background: #f3f3f3;
+  padding: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  width: 150px;
+}
+
+.bolum-listesi button {
+  width: 100%;
+  margin: 5px 0;
+  background-color: #5a3fff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.bolum-listesi button:hover {
+  background-color: #3e29c4;
+}
   </style>
 </head>
 <body>
   <h2 id="title">Kelime Kartları ve Eşleştirme</h2>
-  <div id="bolumler" style="margin: 5px; text-align: center;"></div>
+<div id="sidebar">
+  <button id="toggleSidebar">📚 Kelime Bölümleri</button>
+  <div id="bolumler" class="bolum-listesi" style="display: none;"></div>
+</div>
    <div id="gridWrapper" class="grid-container">
     <div id="gridLeft" class="grid"></div>
     <div id="gridRight" class="grid"></div>
@@ -319,6 +369,10 @@ function renderBolumButtons(data) {
     bolumlerDiv.appendChild(btn);
   });
 }
+    document.getElementById("toggleSidebar").addEventListener("click", function () {
+  const bolumler = document.getElementById("bolumler");
+  bolumler.style.display = bolumler.style.display === "none" ? "block" : "none";
+});
 </script>
 </body>
 </html>
