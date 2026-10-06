@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./icons/icon-192.png" />
 <meta name="color-scheme" content="light dark" />
-<title>YDS Kelime Çalışma Merkezi</title>
+<title>YDS Kelime • Kişisel Hesap</title>
 <style>
 :root{
   --bg:#f4f7fb;--panel:#ffffff;--panel2:#f8fafc;--text:#142033;--muted:#65748b;
@@ -99,10 +99,50 @@ button{cursor:pointer}
 @media(max-width:850px){.main{padding-bottom:92px!important}.mobile-bottom{display:grid}.game-strip{grid-template-columns:1.1fr 1fr 1fr;gap:7px}.game-chip{padding:9px 10px;border-radius:13px}.game-chip .game-label{font-size:9px}.game-chip .game-value{font-size:14px}.level-ring{width:25px;height:25px}.daily-grid{grid-template-columns:1fr}.badges{grid-template-columns:repeat(3,1fr)}.home-hero{padding:20px}.home-hero h3{font-size:22px}.swipe-card{height:min(50vh,380px)}.swipe-card .sw-en{font-size:31px}.swipe-card .sw-tr{font-size:23px}}
 @media(max-width:520px){.game-strip{grid-template-columns:1fr 1fr 1fr}.game-chip .game-value{font-size:13px}.game-chip .mini-progress{margin-top:5px}.badges{grid-template-columns:repeat(2,1fr)}.swipe-card{height:52vh;min-height:320px}.swipe-actions{gap:8px}.home-hero:after{font-size:90px}.hero-actions .hero-btn{flex:1}.topbar{margin-bottom:12px}}
 
+
+/* ===== YDS v4: kullanıcı hesabı ===== */
+.auth-gate,.auth-view{min-height:100dvh;display:grid;place-items:center;padding:24px;background:
+  radial-gradient(circle at 15% 10%,rgba(36,87,214,.16),transparent 34%),
+  radial-gradient(circle at 90% 90%,rgba(124,58,237,.13),transparent 34%),var(--bg)}
+.auth-shell{width:min(430px,100%);background:var(--panel);border:1px solid var(--border);border-radius:28px;padding:28px;box-shadow:0 28px 70px rgba(22,39,76,.16)}
+.auth-brand{display:flex;align-items:center;gap:13px;margin-bottom:24px}.auth-logo{width:54px;height:54px;border-radius:17px;background:linear-gradient(135deg,var(--primary),#7c3aed);display:grid;place-items:center;color:#fff;font-size:27px;font-weight:950;box-shadow:var(--shadow)}
+.auth-brand h1{font-size:21px;margin:0}.auth-brand p{margin:4px 0 0;color:var(--muted);font-size:13px}.auth-title{margin:0 0 6px;font-size:25px}.auth-sub{margin:0 0 20px;color:var(--muted);line-height:1.5;font-size:14px}
+.auth-field{display:grid;gap:7px;margin-bottom:13px}.auth-field label{font-size:12px;font-weight:850;color:var(--muted)}.auth-field input{width:100%;border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:13px;padding:13px 14px;outline:none}.auth-field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(36,87,214,.10)}
+.auth-main-btn{width:100%;border:0;border-radius:13px;padding:13px 16px;background:linear-gradient(135deg,var(--primary),#7c3aed);color:#fff;font-weight:900;margin-top:4px}.auth-alt-btn{width:100%;border:1px solid var(--border);border-radius:13px;padding:12px 16px;background:var(--panel2);color:var(--text);font-weight:850;margin-top:9px}.auth-note{margin:15px 0 0;font-size:11px;line-height:1.5;color:var(--muted);text-align:center}.auth-error{display:none;margin:0 0 14px;padding:10px 12px;border-radius:11px;background:rgba(220,38,38,.09);border:1px solid rgba(220,38,38,.24);color:var(--red);font-size:12px;font-weight:700}.auth-error.show{display:block}.auth-status{font-size:13px;color:var(--muted);text-align:center;margin-top:15px;min-height:20px}
+.setup-box{background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.28);border-radius:14px;padding:13px;margin-top:14px;font-size:12px;line-height:1.5}.setup-box b{display:block;margin-bottom:4px}
+.account-box{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;border:1px solid var(--border);background:var(--panel2);border-radius:14px;padding:10px}.account-avatar{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#7c3aed);color:white;display:grid;place-items:center;font-size:17px}.account-box b{font-size:13px;overflow:hidden;text-overflow:ellipsis}.account-box small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.sync-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:4px}.sync-dot.busy{background:var(--accent);animation:firePulse 1s infinite}.sync-dot.off{background:var(--red)}
+.account-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.account-actions button{font-size:11px;padding:8px 7px}
+.user-chip{border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:12px;padding:9px 11px;font-weight:850;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:520px){.auth-view,.auth-gate{padding:14px}.auth-shell{padding:21px;border-radius:22px}.auth-title{font-size:22px}.user-chip{max-width:48px;padding:9px}.user-chip .uname{display:none}}
+
 </style>
 </head>
 <body>
-<div id="loadingView" class="loader">
+<div id="authGate" class="auth-gate">
+  <div class="auth-shell" style="text-align:center">
+    <div style="font-size:46px">🔐</div>
+    <h2 style="margin:10px 0 7px">YDS hesabın hazırlanıyor</h2>
+    <p style="color:var(--muted);margin:0">Güvenli oturum kontrol ediliyor…</p>
+  </div>
+</div>
+<div id="authView" class="auth-view hidden">
+  <div class="auth-shell">
+    <div class="auth-brand"><div class="auth-logo">Y</div><div><h1>YDS Kelime</h1><p>Kişisel çalışma hesabın</p></div></div>
+    <h2 class="auth-title">Hoş geldin 👋</h2>
+    <p class="auth-sub">Yalnızca kullanıcı adın ve şifren yeterli. E-posta veya telefon istemiyoruz.</p>
+    <div id="authError" class="auth-error"></div>
+    <form id="authForm">
+      <div class="auth-field"><label for="authUsername">Kullanıcı adı</label><input id="authUsername" autocomplete="username" maxlength="24" placeholder="ör. oguzhan" required /></div>
+      <div class="auth-field"><label for="authPassword">Şifre</label><input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="En az 6 karakter" required /></div>
+      <button id="loginBtn" class="auth-main-btn" type="submit">Giriş Yap</button>
+      <button id="signupBtn" class="auth-alt-btn" type="button">Yeni Hesap Oluştur</button>
+    </form>
+    <div id="authStatus" class="auth-status"></div>
+    <div id="firebaseSetup" class="setup-box hidden"><b>⚙️ Bir kez Firebase bağlantısı gerekiyor.</b><span><code>firebase-config.js</code> dosyasına proje ayarlarını yapıştır. Pakette 5 dakikalık kurulum rehberi var.</span></div>
+    <p class="auth-note">Şifre kurtarma için e-posta/telefon kullanılmadığından şifreni unutma. Giriş yaptıktan sonra şifreni değiştirebilirsin.</p>
+  </div>
+</div>
+<div id="loadingView" class="loader hidden">
   <div class="loader-card">
     <div style="font-size:42px">📘</div>
     <h2>YDS Kelime Çalışma Merkezi</h2>
@@ -134,6 +174,8 @@ button{cursor:pointer}
     <div id="sections" class="sections"></div>
 
     <div class="side-footer">
+      <div class="account-box"><div class="account-avatar">👤</div><div><b id="accountNameSide">hesap</b><small><span id="syncDot" class="sync-dot"></span><span id="syncText">Bulut senkronize</span></small></div></div>
+      <div class="account-actions"><button id="changePasswordBtn" class="mini-btn">🔑 Şifre değiştir</button><button id="logoutBtn" class="mini-btn">↪ Çıkış</button></div>
       <button id="resetSectionProgress" class="mini-btn">↺ Bu bölümün işaretlerini sıfırla</button>
       <button id="exportProgress" class="mini-btn">⬇ İlerlemeyi dışa aktar</button>
       <button id="installPwaSide" class="mini-btn hidden">📲 Uygulamayı yükle</button>
@@ -153,6 +195,7 @@ button{cursor:pointer}
           <span class="search-icon">⌕</span>
           <div id="searchResults" class="search-results"></div>
         </div>
+        <button id="userChip" class="user-chip" title="Hesap"><span>👤</span> <span id="accountNameTop" class="uname">hesap</span></button>
         <button id="themeBtn" class="icon-btn" title="Tema">◐</button>
       </div>
     </div>
@@ -201,6 +244,7 @@ button{cursor:pointer}
 </nav>
 
 <script>
+function startYDSApp(){
 (() => {
   'use strict';
   const PAGE_SIZE = 10;
@@ -411,6 +455,120 @@ button{cursor:pointer}
   document.addEventListener('keydown',e=>{if(e.target.matches('input'))return;if(mode==='cards'||mode==='review'){if(e.key==='ArrowRight'){const words=mode==='review'?getReviewWords():sectionWords();const total=Math.max(1,Math.ceil(words.length/PAGE_SIZE));if(page<total-1){page++;render();}}if(e.key==='ArrowLeft'&&page>0){page--;render();}}if(mode==='swipe'){if(e.key==='ArrowRight')swipeDecision('known');if(e.key==='ArrowLeft')swipeDecision('review');if(e.key===' ') {e.preventDefault();swipeReveal=!swipeReveal;renderSwipe();}}if(e.key==='1')setMode('cards');if(e.key==='2')setMode('matching');if(e.key==='3')setMode('quiz');if(e.key==='4')setMode('review');});
 
   loadDefault();
+})();
+}
+</script>
+
+<!-- Firebase: kullanıcı ekranda yalnızca kullanıcı adı + şifre görür. -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="./firebase-config.js"></script>
+<script>
+
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const authGate=$('authGate'), authView=$('authView'), loadingView=$('loadingView'), appView=$('appView');
+  const APP_EXACT_KEYS = new Set(['aktifBolum','ydsMode','ydsPage','currentPage','ydsKnown','ydsReview','ydsToday','ydsGameV3']);
+  const APP_PREFIXES = ['ydsSwipeIndex::'];
+  let auth=null, db=null, currentUser=null, currentUsername='', stateRef=null, lastCloudPayload='', syncTimer=null, appStarted=false;
+
+  function isAppKey(k){ return APP_EXACT_KEYS.has(k) || APP_PREFIXES.some(p=>k.startsWith(p)); }
+  function collectAppStorage(){ const o={}; for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i); if(isAppKey(k)) o[k]=localStorage.getItem(k);} return o; }
+  function clearAppStorage(){ const keys=[]; for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i); if(isAppKey(k))keys.push(k);} keys.forEach(k=>localStorage.removeItem(k)); }
+  function applyAppStorage(storage){ clearAppStorage(); Object.entries(storage||{}).forEach(([k,v])=>{if(isAppKey(k)&&typeof v==='string')localStorage.setItem(k,v);}); }
+  function hasMeaningfulLegacy(s){ return Object.keys(s).some(k=>['ydsKnown','ydsReview','ydsGameV3','ydsToday'].includes(k)); }
+  function normalizeUsername(v){ return String(v||'').trim().toLocaleLowerCase('tr-TR').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ç/g,'c').replace(/[^a-z0-9._-]/g,'').replace(/^[._-]+|[._-]+$/g,''); }
+  function technicalEmail(username){ return `yds_${username}@yds-user.invalid`; }
+  function usernameFromUser(user){ const mail=user?.email||''; const local=mail.split('@')[0]||''; return local.startsWith('yds_')?local.slice(4):local||'kullanici'; }
+  function showError(msg){ const e=$('authError');e.textContent=msg;e.classList.toggle('show',!!msg); }
+  function setAuthStatus(msg){ $('authStatus').textContent=msg||''; }
+  function friendlyError(err){ const c=err?.code||''; if(c.includes('invalid-credential')||c.includes('wrong-password')||c.includes('user-not-found'))return 'Kullanıcı adı veya şifre hatalı.'; if(c.includes('email-already-in-use'))return 'Bu kullanıcı adı daha önce alınmış.'; if(c.includes('weak-password'))return 'Şifre en az 6 karakter olmalı.'; if(c.includes('network-request-failed'))return 'İnternet bağlantısı kurulamadı.'; if(c.includes('too-many-requests'))return 'Çok fazla deneme yapıldı. Bir süre sonra tekrar dene.'; return err?.message||'İşlem tamamlanamadı.'; }
+  function firebaseConfigured(){ const c=window.YDS_FIREBASE_CONFIG; return !!(c&&c.apiKey&&c.projectId&&!String(c.apiKey).includes('BURAYA')&&!String(c.projectId).includes('BURAYA')); }
+  function syncBadge(state,text){ const d=$('syncDot'),t=$('syncText'); if(!d||!t)return; d.className='sync-dot'+(state==='busy'?' busy':state==='off'?' off':'');t.textContent=text; }
+
+  async function pushCloud(force=false){
+    if(!stateRef||!navigator.onLine)return;
+    const storage=collectAppStorage(); const payload=JSON.stringify(storage);
+    if(!force&&payload===lastCloudPayload)return;
+    syncBadge('busy','Senkronize ediliyor…');
+    try{ await stateRef.set({username:currentUsername,storage,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); lastCloudPayload=payload; syncBadge('ok','Bulut senkronize'); }
+    catch(e){ console.warn('Cloud sync:',e); syncBadge('off','Senkron bekliyor'); }
+  }
+
+  async function hydrateCloud(user){
+    currentUser=user; currentUsername=usernameFromUser(user); stateRef=db.collection('users').doc(user.uid).collection('state').doc('main');
+    const legacy=collectAppStorage();
+    try{
+      const snap=await stateRef.get();
+      if(snap.exists && snap.data()?.storage && Object.keys(snap.data().storage).length){ applyAppStorage(snap.data().storage); lastCloudPayload=JSON.stringify(collectAppStorage()); }
+      else if(hasMeaningfulLegacy(legacy)){
+        const take=confirm('Bu cihazda eski YDS ilerlemesi bulundu. Bu ilerlemeyi '+currentUsername+' hesabına aktaralım mı?');
+        if(take){ await stateRef.set({username:currentUsername,storage:legacy,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); lastCloudPayload=JSON.stringify(legacy); }
+        else{ clearAppStorage(); await stateRef.set({username:currentUsername,storage:{},createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); lastCloudPayload='{}'; }
+      } else { clearAppStorage(); if(!snap.exists) await stateRef.set({username:currentUsername,storage:{},createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); lastCloudPayload='{}'; }
+    }catch(e){ console.warn('Cloud hydrate:',e); syncBadge('off','Çevrimdışı'); /* Firestore cache may still make app usable */ }
+  }
+
+  function enterApp(){
+    authGate.classList.add('hidden');authView.classList.add('hidden');loadingView.classList.remove('hidden');
+    $('accountNameSide').textContent=currentUsername;$('accountNameTop').textContent=currentUsername;
+    if(!appStarted){appStarted=true;startYDSApp();}
+    clearInterval(syncTimer);syncTimer=setInterval(()=>pushCloud(false),3500);
+  }
+  function showLogin(){ authGate.classList.add('hidden');loadingView.classList.add('hidden');appView.classList.add('hidden');authView.classList.remove('hidden');$('authUsername').focus(); }
+
+  async function login(){
+    showError(''); const username=normalizeUsername($('authUsername').value), pass=$('authPassword').value;
+    if(username.length<3){showError('Kullanıcı adı en az 3 karakter olmalı.');return;}
+    if(pass.length<6){showError('Şifre en az 6 karakter olmalı.');return;}
+    setAuthStatus('Giriş yapılıyor…');
+    try{await auth.signInWithEmailAndPassword(technicalEmail(username),pass);}catch(e){showError(friendlyError(e));setAuthStatus('');}
+  }
+  async function signup(){
+    showError(''); const username=normalizeUsername($('authUsername').value), pass=$('authPassword').value;
+    $('authUsername').value=username;
+    if(username.length<3||username.length>24){showError('Kullanıcı adı 3-24 karakter arasında olmalı.');return;}
+    if(!/^[a-z0-9][a-z0-9._-]*$/.test(username)){showError('Kullanıcı adı harf/rakamla başlamalı; yalnızca harf, rakam, nokta, _ ve - kullanılabilir.');return;}
+    if(pass.length<6){showError('Şifre en az 6 karakter olmalı.');return;}
+    if(!confirm(`“${username}” kullanıcı adıyla hesap oluşturulsun mu?\n\nE-posta/telefon olmadığı için şifreni unutursan otomatik kurtarma yapılamaz.`))return;
+    setAuthStatus('Hesap oluşturuluyor…');
+    try{const cred=await auth.createUserWithEmailAndPassword(technicalEmail(username),pass); await db.collection('users').doc(cred.user.uid).collection('state').doc('main').set({username,storage:{},createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}
+    catch(e){showError(friendlyError(e));setAuthStatus('');}
+  }
+
+  async function logout(){
+    if(!confirm('Hesaptan çıkış yapılsın mı?'))return;
+    try{await pushCloud(true);}catch{}
+    try{await auth.signOut();}catch{}
+    clearAppStorage();location.reload();
+  }
+  async function changePassword(){
+    const user=auth?.currentUser;if(!user)return;
+    const current=prompt('Mevcut şifreni yaz:');if(!current)return;
+    const next=prompt('Yeni şifre (en az 6 karakter):');if(!next)return;if(next.length<6){alert('Yeni şifre en az 6 karakter olmalı.');return;}
+    try{const cred=firebase.auth.EmailAuthProvider.credential(user.email,current);await user.reauthenticateWithCredential(cred);await user.updatePassword(next);alert('Şifren değiştirildi.');}
+    catch(e){alert('Şifre değiştirilemedi: '+friendlyError(e));}
+  }
+
+  $('authForm').addEventListener('submit',e=>{e.preventDefault();login();}); $('signupBtn').onclick=signup;
+  $('logoutBtn').onclick=logout;$('changePasswordBtn').onclick=changePassword;$('userChip').onclick=()=>{ if(innerWidth<850){$('sidebar').classList.add('open');} };
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')pushCloud(true);});window.addEventListener('online',()=>pushCloud(true));
+  window.addEventListener('beforeunload',()=>{pushCloud(true);});
+
+  if(!firebaseConfigured()){
+    authGate.classList.add('hidden');authView.classList.remove('hidden');$('firebaseSetup').classList.remove('hidden');$('loginBtn').disabled=true;$('signupBtn').disabled=true;setAuthStatus('Önce firebase-config.js dosyasını doldur.');return;
+  }
+  try{
+    firebase.initializeApp(window.YDS_FIREBASE_CONFIG);auth=firebase.auth();db=firebase.firestore();
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
+    db.enablePersistence({synchronizeTabs:true}).catch(()=>{});
+    auth.onAuthStateChanged(async user=>{
+      if(!user){showLogin();return;}
+      setAuthStatus('Hesabın yükleniyor…');await hydrateCloud(user);enterApp();
+    });
+  }catch(e){authGate.classList.add('hidden');authView.classList.remove('hidden');showError('Firebase başlatılamadı: '+friendlyError(e));}
 })();
 </script>
 </body>
